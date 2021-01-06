@@ -11,13 +11,13 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Display {
 
-    private static long window;
+    private static long window = NULL;
 
     private static boolean vsync;
     private static boolean fullscreen;
     private static WindowData windowData;
 
-    public static void init(WindowData windowData) {
+    static void init(WindowData windowData) {
         Display.windowData = windowData;
 
         GLFWErrorCallback.createPrint(System.err).set();
@@ -26,12 +26,12 @@ public class Display {
             throw new RuntimeException("Could not initialize GLFW");
     }
 
-    public static void quit() {
+    static void quit() {
         glfwDestroyWindow(window);
         glfwTerminate();
     }
 
-    public static void createWindow(int width, int height, String title, boolean fullscreen, boolean vsync, boolean resizable) {
+    static void createWindow(int width, int height, String title, boolean fullscreen, boolean vsync, boolean resizable) {
         Display.windowData.width = width;
         Display.windowData.height = height;
         Display.fullscreen = fullscreen;
@@ -62,16 +62,14 @@ public class Display {
 
         setTitle(title);
         setVSync(vsync);
-
-        Renderer.init();
     }
 
-    public static void update() {
+    static void update() {
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
 
-    public static void setVSync(boolean on) {
+    public static void setVSync(boolean on) {  // TODO check for NULL window
         Display.vsync = on;
         glfwSwapInterval(on ? 1 : 0);
     }

@@ -18,6 +18,7 @@ public class Application {
     private boolean running = true;
     private final WindowData windowData;
     private final ArrayList<Layer> layers = new ArrayList<>();
+    private final Renderer renderer;
 
     protected Application(int width, int height, String title) {
         windowData = new WindowData(width, height, title, this::onEvent);
@@ -30,6 +31,8 @@ public class Application {
                 Errors.init();
             }
         } catch (Exception ignored) {}
+
+        renderer = new Renderer();
     }
 
     protected Application(int width, int height, String title, boolean fullscreen, boolean vsync, boolean resizable) {
@@ -43,10 +46,16 @@ public class Application {
                 Errors.init();
             }
         } catch (Exception ignored) {}
+
+        renderer = new Renderer();
     }
 
     public void close() {
         running = false;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 
     protected void run() {
@@ -96,7 +105,7 @@ public class Application {
     }
 
     private boolean onWindowResized(WindowResizedEvent event) {
-        Renderer.setViewport(event.width, event.height);
+        renderer.setViewport(event.width, event.height);
         return false;
     }
 

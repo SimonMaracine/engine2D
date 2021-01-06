@@ -1,7 +1,6 @@
 import engine2d.core.Application;
 import engine2d.core.Layer;
 import engine2d.core.Time;
-import engine2d.core.renderer.Renderer;
 import engine2d.core.renderer.font.FontType;
 import engine2d.core.renderer.font.Text;
 import engine2d.core.renderer.texture.TexParams;
@@ -20,7 +19,7 @@ public class ExampleLayer extends Layer {
 
     ExampleLayer(Application app) {
         super(app);
-        Renderer.setClearColor(170, 17, 170);
+        renderer.setClearColor(170, 17, 170);
 
         TexParams params = new TexParams(
                 TexParams.NEAREST, TexParams.NEAREST,
@@ -44,33 +43,33 @@ public class ExampleLayer extends Layer {
 
     @Override
     public void detach() {
-
+        System.out.println("Detached");
     }
 
     @Override
     public void update(float dt) {
-        Renderer.clear();
+        renderer.clear();
 
-        Renderer.drawRect(300, 400, 300, 120, 255, 0, 128);
-        Renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
+        renderer.drawRect(300, 400, 300, 120, 255, 0, 128);
+        renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
 
-        Renderer.drawPoint(Input.mousePositionX() + 5, Input.mousePositionY() + 5, 0, 255, 0);
+        renderer.drawPoint(Input.mousePositionX() + 5, Input.mousePositionY() + 5, 0, 255, 0);
 
-        Renderer.drawImage(400, 300, 200, 150, image);
+        renderer.drawImage(400, 300, 200, 150, image);
 
-        Renderer.drawText(50, 50, 0.5f, sentence);
+        renderer.drawText(50, 50, 0.5f, sentence);
 
         Text fps = font.render(Integer.toString(Time.getFPS()), 255, 255, 0);
-        Renderer.drawText(1, 1, 0.2f, fps);
+        renderer.drawText(1, 1, 0.2f, fps);
 
         Text frameTime = font.render(Float.toString(dt), 255, 255, 0);
-        Renderer.drawText(50, 1, 0.2f, frameTime);
+        renderer.drawText(50, 1, 0.2f, frameTime);
 
-        Renderer.drawText(100, 600, 0.45f, sentence2);
-        Renderer.drawPoint(100, 600, 255, 255, 255);
+        renderer.drawText(100, 600, 0.45f, sentence2);
+        renderer.drawPoint(100, 600, 255, 255, 255);
 
-        Renderer.drawText(600, 100, 0.4f, smallText);
-        Renderer.drawText(600, 200, 1.5f, largeText);
+        renderer.drawText(600, 100, 0.4f, smallText);
+        renderer.drawText(600, 200, 1.5f, largeText);
     }
 
     @Override
