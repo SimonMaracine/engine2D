@@ -17,8 +17,10 @@ public class ExampleLayer extends Layer {
     Text smallText;
     Text largeText;
 
-    ExampleLayer(Application app) {
-        super(app);
+    SecondLayer secondLayer = getLayerRef("SecondLayer");
+
+    ExampleLayer(String name, Application app) {
+        super(name, app);
         renderer.setClearColor(170, 17, 170);
 
         TexParams params = new TexParams(
@@ -48,8 +50,6 @@ public class ExampleLayer extends Layer {
 
     @Override
     public void update(float dt) {
-        renderer.clear();
-
         renderer.drawRect(300, 400, 300, 120, 255, 0, 128);
         renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
 
@@ -70,6 +70,8 @@ public class ExampleLayer extends Layer {
 
         renderer.drawText(600, 100, 0.4f, smallText);
         renderer.drawText(600, 200, 1.5f, largeText);
+
+        System.out.println(secondLayer.count);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class ExampleLayer extends Layer {
         else if (event.key == Input.KEY_S)
             System.out.println("Ssss");
         else if (event.key == Input.KEY_ESCAPE)
-            application.close();
+            closeApplication();
 
         return true;
     }

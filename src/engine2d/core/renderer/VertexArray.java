@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL30.*;
 
-public class VertexArray implements Disposable {
+class VertexArray implements Disposable {
 
     private final int id;
     ArrayList<VertexBuffer> buffers = new ArrayList<>();

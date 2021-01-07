@@ -2,11 +2,11 @@ package engine2d.core;
 
 import engine2d.WindowData;
 import engine2d.core.assetsManager.AssetsManager;
-import engine2d.core.opengl.Errors;
 import engine2d.core.renderer.Renderer;
 import engine2d.events.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Application {
 
@@ -17,7 +17,8 @@ public class Application {
 
     private boolean running = true;
     private final WindowData windowData;
-    private final ArrayList<Layer> layers = new ArrayList<>();
+    private final ArrayList<Layer> layerStack = new ArrayList<>();
+    private final HashMap<String, Layer> allLayers = new HashMap<>();
     private final Renderer renderer;
 
     protected Application(int width, int height, String title) {
@@ -28,7 +29,7 @@ public class Application {
         try {
             if (System.getProperty("debug").equals("true")) {
                 System.out.println("Using debug mode");
-                Errors.init();
+                Debug.init();
             }
         } catch (Exception ignored) {}
 
@@ -43,7 +44,7 @@ public class Application {
         try {
             if (System.getProperty("debug").equals("true")) {
                 System.out.println("Using debug mode");
-                Errors.init();
+                Debug.init();
             }
         } catch (Exception ignored) {}
 
@@ -58,12 +59,16 @@ public class Application {
         return renderer;
     }
 
+    public HashMap<String, Layer> getAllLayers() {
+        return allLayers;
+    }
+
     protected void run() {
         float dt = 0.0f;
 
         while (running) {
-            for (int i = 0; i < layers.size(); i++)
-                layers.get(i).update(dt);
+            for (int i = 0; i < layerStack.size(); i++)
+                layerStack.get(i).update(dt);
 
             Display.update();
             dt = Time.tick();
@@ -74,7 +79,7 @@ public class Application {
 
     protected void pushLayer(Layer layer) {
         layer.attach();
-        layers.add(layer);
+        layerStack.add(layer);
     }
 
     private void onEvent(Event event) {
@@ -83,16 +88,16 @@ public class Application {
         dispatcher.dispatch(EventType.WINDOWRESIZED, this::onWindowResized);
 
         // Propagate the event
-        for (int i = layers.size() - 1; i >= 0; i--) {
+        for (int i = layerStack.size() - 1; i >= 0; i--) {
             if (event.handled)
                 break;
-            layers.get(i).onEvent(event);
+            layerStack.get(i).onEvent(event);
         }
     }
 
     private void quit() {
-        for (int i = 0; i < layers.size(); i++)
-            layers.get(i).detach();
+        for (int i = 0; i < layerStack.size(); i++)
+            layerStack.get(i).detach();
 
         AssetsManager.collect();
         Events.quit();

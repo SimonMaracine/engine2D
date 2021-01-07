@@ -1,5 +1,4 @@
 import engine2d.core.Application;
-import engine2d.core.Display;
 
 public class Main extends Application {
 
@@ -9,11 +8,11 @@ public class Main extends Application {
 
     Main() {
         super(width, height, title);
-        pushLayer(new ExampleLayer(this));
+        pushLayer(new SecondLayer("SecondLayer", this));
+        pushLayer(new ExampleLayer("ExampleLayer", this));
     }
 
     public static void main(String[] args) {
-        Display.setTitle("false");
         new Main().run();
     }
 

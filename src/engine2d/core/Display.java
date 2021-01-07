@@ -3,7 +3,6 @@ package engine2d.core;
 import engine2d.WindowData;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import engine2d.core.renderer.Renderer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -69,12 +68,18 @@ public class Display {
         glfwSwapBuffers(window);
     }
 
-    public static void setVSync(boolean on) {  // TODO check for NULL window
+    public static void setVSync(boolean on) {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         Display.vsync = on;
         glfwSwapInterval(on ? 1 : 0);
     }
 
     public static void setTitle(String title) {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         Display.windowData.title = title;
         glfwSetWindowTitle(window, title);
     }
@@ -82,48 +87,79 @@ public class Display {
     public static void setIcon() {}  // TODO implement this
 
     public static void iconify() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         glfwIconifyWindow(window);
     }
 
     public static void restore() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         glfwRestoreWindow(window);
     }
 
     public static void hide() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         glfwHideWindow(window);
     }
 
     public static void show() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         glfwShowWindow(window);
     }
 
     public static int getWidth() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         return windowData.width;
     }
 
     public static int getHeight() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         return windowData.height;
     }
 
     public static String getTitle() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         return windowData.title;
     }
 
     public static boolean getVSync() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         return vsync;
     }
 
     public static boolean getFullscreen() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         return fullscreen;
     }
 
     public static long getWindow() {
         if (window == NULL)
-            throw new RuntimeException("The window is uninitialized");
+            throw new RuntimeException("Window not uninitialized");
+
         return window;
     }
 
     public static String getContextVersion() {
+        if (window == NULL)
+            throw new RuntimeException("Window not initilized");
+
         int major = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
         int minor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
         return "OpenGL " + major + "." + minor;

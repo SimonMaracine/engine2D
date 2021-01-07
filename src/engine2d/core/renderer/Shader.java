@@ -12,7 +12,7 @@ import java.util.Scanner;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
-public class Shader implements Disposable {
+class Shader implements Disposable {
 
     private final int id;
     private final int vertexShaderID;

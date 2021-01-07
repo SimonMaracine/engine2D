@@ -33,7 +33,7 @@ class VertexElement {
 
 }
 
-public class VertexBufferLayout {
+class VertexBufferLayout {
 
     ArrayList<VertexElement> elements = new ArrayList<>();
     int stride;

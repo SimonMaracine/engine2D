@@ -8,6 +8,7 @@ public class Dispatcher {
         this.event = event;
     }
 
+    @SuppressWarnings("unchecked")
     public <E> void dispatch(EventType type, EventCallback<E> callback) {
         if (event.getType() == type) {
             event.handled = callback.invoke((E) event);

@@ -6,7 +6,7 @@ import engine2d.core.assetsManager.Disposable;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class VertexBuffer implements Disposable {
+class VertexBuffer implements Disposable {
 
     private final int id;
 
