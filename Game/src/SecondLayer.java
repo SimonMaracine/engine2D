@@ -1,6 +1,6 @@
-import engine2d.core.Application;
-import engine2d.core.Layer;
-import engine2d.events.Event;
+import engine2D.core.Application;
+import engine2D.core.Layer;
+import engine2D.events.Event;
 
 public class SecondLayer extends Layer {
 

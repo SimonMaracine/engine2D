@@ -1,4 +1,4 @@
-import engine2d.core.Application;
+import engine2D.core.Application;
 
 public class Main extends Application {
 

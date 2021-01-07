@@ -1,14 +1,16 @@
-import engine2d.core.Application;
-import engine2d.core.Layer;
-import engine2d.core.Time;
-import engine2d.core.renderer.font.FontType;
-import engine2d.core.renderer.font.Text;
-import engine2d.core.renderer.texture.TexParams;
-import engine2d.core.renderer.texture.Texture;
-import engine2d.events.*;
-import engine2d.input.Input;
+import engine2D.core.Application;
+import engine2D.core.Layer;
+import engine2D.core.Time;
+import engine2D.core.renderer.font.FontType;
+import engine2D.core.renderer.font.Text;
+import engine2D.core.renderer.texture.TexParams;
+import engine2D.core.renderer.texture.Texture;
+import engine2D.events.*;
+import engine2D.input.Input;
 
 public class ExampleLayer extends Layer {
+
+    SecondLayer secondLayer = getLayerRef("SecondLayer");
 
     Texture image;
     FontType font;
@@ -16,8 +18,6 @@ public class ExampleLayer extends Layer {
     Text sentence2;
     Text smallText;
     Text largeText;
-
-    SecondLayer secondLayer = getLayerRef("SecondLayer");
 
     ExampleLayer(String name, Application app) {
         super(name, app);
