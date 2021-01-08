@@ -1,6 +1,8 @@
 import engine2D.core.Application;
 import engine2D.core.Layer;
+import engine2D.core.Time;
 import engine2D.core.renderer.font.FontType;
+import engine2D.core.renderer.font.Text;
 import engine2D.events.Event;
 
 public class UI extends Layer {
@@ -31,6 +33,9 @@ public class UI extends Layer {
     protected void update(float dt) {
         resetButton.update(dt);
         resetButton.render(renderer);
+
+        Text fps = font.render(Integer.toString(Time.getFPS()), 0, 0, 255);
+        renderer.drawText(1, Main.height - 20, 0.3f, fps);
     }
 
     @Override

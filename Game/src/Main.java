@@ -1,4 +1,5 @@
 import engine2D.core.Application;
+import engine2D.core.Display;
 
 public class Main extends Application {
 
@@ -11,6 +12,7 @@ public class Main extends Application {
 //        pushLayer(new ExampleLayer("ExampleLayer", this));
         pushLayer(new CellPopullation("CellPopullation", this));
         pushLayer(new UI("UI", this));
+        Display.setVSync(2);
     }
 
     public static void main(String[] args) {

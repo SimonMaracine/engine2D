@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class CellPopullation extends Layer {
 
-    final int CELL_WIDTH = 10;
+    final int CELL_WIDTH = 5;
     final int NO_CELLS_WIDTH = Main.width / CELL_WIDTH;
     final int NO_CELLS_HEIGHT = Main.height / CELL_WIDTH;
 
@@ -104,7 +104,9 @@ public class CellPopullation extends Layer {
 
     private boolean onMouseButtonReleased(MouseButtonReleasedEvent event) {
         if (event.button == Input.MOUSE_BUTTON_LEFT) {
-            cells[Input.mousePositionX() / CELL_WIDTH][Input.mousePositionY() / CELL_WIDTH] = true;
+            try {
+                cells[Input.mousePositionX() / CELL_WIDTH][Input.mousePositionY() / CELL_WIDTH] = true;
+            } catch (ArrayIndexOutOfBoundsException ignored) {}  // Clicked outside of the original window area
         }
 
         return false;
