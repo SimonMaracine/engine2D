@@ -1,3 +1,5 @@
+package gameOfLife;
+
 import engine2D.core.Application;
 import engine2D.core.Layer;
 import engine2D.events.*;
@@ -8,14 +10,14 @@ import java.util.Random;
 public class CellPopullation extends Layer {
 
     final int CELL_WIDTH = 5;
-    final int NO_CELLS_WIDTH = Main.width / CELL_WIDTH;
-    final int NO_CELLS_HEIGHT = Main.height / CELL_WIDTH;
+    final int NO_CELLS_WIDTH = Options.WIDTH / CELL_WIDTH;
+    final int NO_CELLS_HEIGHT = Options.HEIGHT / CELL_WIDTH;
 
     boolean[][] cells = new boolean[NO_CELLS_WIDTH][NO_CELLS_HEIGHT];
 
     Random rand = new Random();
 
-    protected CellPopullation(String name, Application application) {
+    public CellPopullation(String name, Application application) {
         super(name, application);
     }
 
@@ -70,12 +72,12 @@ public class CellPopullation extends Layer {
         cells = generation;
 
         // Rendering
-        renderer.clear();
+//        renderer.clear();
 
         for (int i = 0; i < NO_CELLS_WIDTH; i++) {
             for (int j = 0; j < NO_CELLS_HEIGHT; j++) {
                 if (cells[i][j])
-                    renderer.drawRect(i * CELL_WIDTH, j * CELL_WIDTH, CELL_WIDTH - 1, CELL_WIDTH - 1, 255, 255, 255);
+                    renderer.drawRect(i * CELL_WIDTH, j * CELL_WIDTH, CELL_WIDTH - 1, CELL_WIDTH - 1, 255, 255, 255, 255);
             }
         }
     }
@@ -99,7 +101,7 @@ public class CellPopullation extends Layer {
         if (event.key == Input.KEY_SPACE)
             initCells();
 
-        return false;
+        return true;
     }
 
     private boolean onMouseButtonReleased(MouseButtonReleasedEvent event) {
@@ -109,7 +111,7 @@ public class CellPopullation extends Layer {
             } catch (ArrayIndexOutOfBoundsException ignored) {}  // Clicked outside of the original window area
         }
 
-        return false;
+        return true;
     }
 
 }

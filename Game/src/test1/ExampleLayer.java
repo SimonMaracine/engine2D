@@ -1,3 +1,5 @@
+package test1;
+
 import engine2D.core.Application;
 import engine2D.core.Layer;
 import engine2D.core.Time;
@@ -19,7 +21,7 @@ public class ExampleLayer extends Layer {
     Text smallText;
     Text largeText;
 
-    ExampleLayer(String name, Application app) {
+    public ExampleLayer(String name, Application app) {
         super(name, app);
         renderer.setClearColor(170, 17, 170);
 
@@ -39,18 +41,18 @@ public class ExampleLayer extends Layer {
     }
 
     @Override
-    public void attach() {
+    protected void attach() {
         System.out.println(Application.ENGINE_VERSION);
     }
 
     @Override
-    public void detach() {
-        System.out.println("Detached");
+    protected void detach() {
+        System.out.println("ExampleLayer detached");
     }
 
     @Override
-    public void update(float dt) {
-        renderer.drawRect(300, 400, 300, 120, 255, 0, 128);
+    protected void update(float dt) {
+        renderer.drawRect(300, 400, 300, 120, 255, 0, 128, 255);
         renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
 
         renderer.drawPoint(Input.mousePositionX() + 5, Input.mousePositionY() + 5, 0, 255, 0);
@@ -71,17 +73,18 @@ public class ExampleLayer extends Layer {
         renderer.drawText(600, 100, 0.4f, smallText);
         renderer.drawText(600, 200, 1.5f, largeText);
 
-        System.out.println(secondLayer.count);
+//        System.out.println(secondLayer.count);
     }
 
     @Override
-    public void onEvent(Event event) {
+    protected void onEvent(Event event) {
         Dispatcher dispatcher = new Dispatcher(event);
         dispatcher.dispatch(EventType.KEYRELEASED, this::onKeyReleased);
         dispatcher.dispatch(EventType.KEYPRESSED, this::onKeyPressed);
+        dispatcher.dispatch(EventType.MOUSEBUTTONPRESSED, this::onMouseButtonPressed);
     }
 
-    boolean onKeyPressed(KeyPressedEvent event) {
+    private boolean onKeyPressed(KeyPressedEvent event) {
         if (!event.repeated)
             if (event.key == Input.KEY_UP)
                 System.out.println("Pressed up key!");
@@ -89,7 +92,7 @@ public class ExampleLayer extends Layer {
         return true;
     }
 
-    boolean onKeyReleased(KeyReleasedEvent event) {
+    private boolean onKeyReleased(KeyReleasedEvent event) {
         if (event.key == Input.KEY_SPACE)
             System.out.println("Released space key!");
         else if (event.key == Input.KEY_S)
@@ -100,7 +103,7 @@ public class ExampleLayer extends Layer {
         return true;
     }
 
-    boolean onMouseButtonPressed(MouseButtonPressedEvent event) {
+    private boolean onMouseButtonPressed(MouseButtonPressedEvent event) {
         if (event.button == Input.MOUSE_BUTTON_LEFT)
             System.out.println("Left click");
 

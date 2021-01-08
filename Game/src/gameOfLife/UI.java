@@ -1,3 +1,5 @@
+package gameOfLife;
+
 import engine2D.core.Application;
 import engine2D.core.Layer;
 import engine2D.core.Time;
@@ -12,7 +14,7 @@ public class UI extends Layer {
     Button resetButton;
     FontType font;
 
-    protected UI(String name, Application application) {
+    public UI(String name, Application application) {
         super(name, application);
     }
 
@@ -35,7 +37,7 @@ public class UI extends Layer {
         resetButton.render(renderer);
 
         Text fps = font.render(Integer.toString(Time.getFPS()), 0, 0, 255);
-        renderer.drawText(1, Main.height - 20, 0.3f, fps);
+        renderer.drawText(1, Options.HEIGHT - 20, 0.3f, fps);
     }
 
     @Override

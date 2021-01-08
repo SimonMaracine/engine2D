@@ -58,15 +58,16 @@ public class Renderer {
         basicShader.use();  // Use the other shader needed by everyone else
     }
 
-    public void drawRect(int x, int y, int width, int height, int red, int green, int blue) {
+    public void drawRect(int x, int y, int width, int height, int red, int green, int blue, int alpha) {
         if (width < 0 || height < 0)
             throw new RuntimeException("Width and height must be greater than 0");
 
         float r = byteToFloat(red);
         float g = byteToFloat(green);
         float b = byteToFloat(blue);
+        float a = byteToFloat(alpha);
 
-        basicShader.loadUniformFloat4("color", new Vector4f(r, g, b, 1.0f));
+        basicShader.loadUniformFloat4("color", new Vector4f(r, g, b, a));
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(width, height)));
 
         basicShader.loadUniformInt1("textureSampler", 0);

@@ -8,8 +8,8 @@ public class Utils {
 
     public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
 		Matrix4f matrix = new Matrix4f();
-		matrix.translate(new Vector3f(translation, 0));
-		matrix.scale(scale.x, scale.y, 1);
+		matrix.translate(new Vector3f(translation, 0.0f));
+		matrix.scale(scale.x, scale.y, 1.0f);
 		return matrix;
 	}
 

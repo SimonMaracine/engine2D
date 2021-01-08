@@ -1,3 +1,5 @@
+package gameOfLife;
+
 import engine2D.core.renderer.Renderer;
 import engine2D.core.renderer.font.FontType;
 import engine2D.core.renderer.font.Text;
@@ -13,6 +15,7 @@ public class Button {
     int x, y;
     int width, height;
     Text text;
+    FontType font;
     Command command;
 
     boolean canMove = false;
@@ -24,6 +27,7 @@ public class Button {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.font = font;
         this.command = command;
         this.text = font.render("Reset", 128, 0, 128);
     }
@@ -35,10 +39,17 @@ public class Button {
                 y = Input.mousePositionY() - yOffsetGrab;
             }
         }
+
+        if (Input.mouseButtonDown(Input.MOUSE_BUTTON_LEFT)) {
+            if (checkBounds())
+                text = font.render("Reset", 210, 0, 210);
+        } else {
+            text = font.render("Reset", 128, 0, 128);
+        }
     }
 
     void render(Renderer renderer) {
-        renderer.drawRect(x, y, width, height, 200, 200, 200);
+        renderer.drawRect(x, y, width, height, 200, 200, 200, 100);
         renderer.drawText(x + 2, y + 6, 0.5f, text);
     }
 
@@ -70,7 +81,7 @@ public class Button {
                 canMove = false;
         }
 
-        return true;
+        return false;  // return true to consume the event and not print "Left click"
     }
 
     private void click() {
