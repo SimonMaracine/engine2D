@@ -9,7 +9,7 @@ public class Time {
     private static int frameCount;
     private static int fps;
 
-    public static void pause(float seconds) {
+    public static void pause(float seconds) {  // TODO maybe not working
         long milliseconds = (long) seconds * 1000;
         try {
             Thread.sleep(milliseconds);

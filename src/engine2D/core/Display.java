@@ -59,7 +59,7 @@ public class Display {
         GL.createCapabilities(true);
 
         setTitle(title);
-        setVSync(vsync);
+        setVSync(vsync ? 1 : 0);
     }
 
     static void update() {
@@ -67,12 +67,12 @@ public class Display {
         glfwSwapBuffers(window);
     }
 
-    public static void setVSync(boolean on) {
+    public static void setVSync(int numberOfWaits) {
         if (window == NULL)
             throw new RuntimeException("Window not initilized");
 
-        Display.vsync = on;
-        glfwSwapInterval(on ? 1 : 0);
+        Display.vsync = numberOfWaits > 0;
+        glfwSwapInterval(numberOfWaits);
     }
 
     public static void setTitle(String title) {
