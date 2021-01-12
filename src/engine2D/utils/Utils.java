@@ -13,12 +13,6 @@ public class Utils {
 		return matrix;
 	}
 
-	public static Matrix4f createProjectionMatrix(float left, float right, float bottom, float top) {
-        Matrix4f matrix = new Matrix4f();
-        matrix.ortho2D(left, right, bottom, top);
-        return matrix;
-    }
-
     public static float byteToFloat(int x) {
         return x >= 255 ? 1.0f : x / 256.0f;
     }

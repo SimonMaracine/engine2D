@@ -20,7 +20,7 @@ class Shader implements Disposable {
 
     private final HashMap<String, Integer> cache = new HashMap<>();
 
-    public Shader(String vertexShader, String fragmentShader) {
+    Shader(String vertexShader, String fragmentShader) {
         vertexShaderID = createAndCompileShader(vertexShader, GL_VERTEX_SHADER);
         fragmentShaderID = createAndCompileShader(fragmentShader, GL_FRAGMENT_SHADER);
 
@@ -47,49 +47,49 @@ class Shader implements Disposable {
         glDeleteProgram(id);
     }
 
-    public void loadUniformInt1(String name, int value) {
+    void loadUniformInt1(String name, int value) {
         glUniform1i(getUniformLocation(name), value);
     }
 
-    public void loadUniformInt3(String name, Vector3i vector) {
+    void loadUniformInt3(String name, Vector3i vector) {
         glUniform3i(getUniformLocation(name), vector.x, vector.y, vector.z);
     }
 
-    public void loadUniformInt4(String name, Vector4i vector) {
+    void loadUniformInt4(String name, Vector4i vector) {
         glUniform4i(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
     }
 
-    public void loadUniformFloat1(String name, float value) {
+    void loadUniformFloat1(String name, float value) {
         glUniform1f(getUniformLocation(name), value);
     }
 
-    public void loadUniformFloat2(String name, Vector2f vector) {
+    void loadUniformFloat2(String name, Vector2f vector) {
         glUniform2f(getUniformLocation(name), vector.x, vector.y);
     }
 
-    public void loadUniformFloat3(String name, Vector3f vector) {
+    void loadUniformFloat3(String name, Vector3f vector) {
         glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
     }
 
-    public void loadUniformFloat4(String name, Vector4f vector) {
+    void loadUniformFloat4(String name, Vector4f vector) {
         glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
     }
 
-    public void loadUniformFloat16(String name, Matrix4f matrix) {
+    void loadUniformFloat16(String name, Matrix4f matrix) {
         float[] array = new float[16];
         matrix.get(array);
         glUniformMatrix4fv(getUniformLocation(name), false, array);
     }
 
-    public void loadUniformBoolean(String name, boolean truth) {
+    void loadUniformBoolean(String name, boolean truth) {
         glUniform1i(getUniformLocation(name), truth ? 1 : 0);
     }
 
-    public void use() {
+    void use() {
         glUseProgram(id);
     }
 
-    public void stop() {
+    void stop() {
         glUseProgram(0);
     }
 

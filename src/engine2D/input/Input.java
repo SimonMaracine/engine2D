@@ -1,6 +1,10 @@
 package engine2D.input;
 
 import engine2D.core.Display;
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector2i;
+import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.DoubleBuffer;
@@ -150,15 +154,48 @@ public class Input {
 
     private static final long window = Display.getWindow();
 
-    public static boolean keyDown(int key) {
+    public static boolean getKeyDown(int key) {
         return glfwGetKey(window, key) == GLFW_PRESS;
     }
 
-    public static boolean mouseButtonDown(int button) {
+    public static boolean getMouseButtonDown(int button) {
         return glfwGetMouseButton(window, button) == GLFW_PRESS;
     }
 
-    public static int mousePositionX() {
+    public static Vector2i getMousePosition() {
+        DoubleBuffer xPos;
+        DoubleBuffer yPos;
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            xPos = stack.mallocDouble(1);
+            yPos = stack.mallocDouble(1);
+
+            glfwGetCursorPos(window, xPos, yPos);
+        }
+
+        return new Vector2i((int) xPos.get(), Display.getHeight() - (int) yPos.get());
+    }
+
+    public static Vector2i getMousePositionMultipliedByView(Matrix4f viewMatrix) {
+        DoubleBuffer xPos;
+        DoubleBuffer yPos;
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            xPos = stack.mallocDouble(1);
+            yPos = stack.mallocDouble(1);
+
+            glfwGetCursorPos(window, xPos, yPos);
+        }
+
+        Vector4f position = new Vector4f((float) xPos.get(), Display.getHeight() - (float) yPos.get(), 1.0f, 1.0f);
+        Matrix4f mat = new Matrix4f();
+        viewMatrix.invert(mat);
+        position.mul(mat, position);
+
+        return new Vector2i((int) position.x, (int) position.y);
+    }
+
+    public static int getMousePositionX() {
         DoubleBuffer xPos;
         DoubleBuffer yPos;
 
@@ -172,7 +209,7 @@ public class Input {
         return (int) xPos.get();
     }
 
-    public static int mousePositionY() {
+    public static int getMousePositionY() {
         DoubleBuffer xPos;
         DoubleBuffer yPos;
 

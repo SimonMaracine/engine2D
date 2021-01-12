@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL30.*;
 class VertexArray implements Disposable {
 
     private final int id;
-    ArrayList<VertexBuffer> buffers = new ArrayList<>();
+    final ArrayList<VertexBuffer> buffers = new ArrayList<>();
 
     VertexArray() {
         id = glGenVertexArrays();

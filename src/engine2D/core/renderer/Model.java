@@ -30,7 +30,7 @@ public class Model {
         vertexArray.addBuffer(buffer, layout);
     }
 
-    public Model(float[] positions, float[] textureCoordinates) {
+    Model(float[] positions, float[] textureCoordinates) {
         vertexCount = positions.length / 2;
 
         VertexBuffer buffer = new VertexBuffer(positions);
@@ -45,7 +45,7 @@ public class Model {
         vertexArray.addBuffer(buffer2, layout2);
     }
 
-    public void updateData(float[] positions, float[] textureCoordinates) {
+    void updateData(float[] positions, float[] textureCoordinates) {
         vertexCount = positions.length / 2;
 
         // This assumes that positions is at index 0 and texture coordinates is at index 1

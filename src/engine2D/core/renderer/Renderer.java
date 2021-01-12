@@ -5,7 +5,7 @@ import engine2D.core.renderer.font.Text;
 import engine2D.core.renderer.texture.Texture;
 import org.joml.*;
 
-import static  engine2D.utils.Utils.*;
+import static engine2D.utils.Utils.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
@@ -14,19 +14,14 @@ public class Renderer {
     private final Shader textShader = new Shader("shaders/text.vert", "shaders/text.frag");
     private final RendererModels rendererModels = new RendererModels();
 
+    private Matrix4f viewProjectionMatrix = new Matrix4f();
+
     public Renderer() {
         assert Display.getWidth() != 0 || Display.getHeight() != 0;
 
         glViewport(0, 0, Display.getWidth(), Display.getHeight());
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
-
-        Matrix4f matrix = createProjectionMatrix(0, Display.getWidth(), 0, Display.getHeight());
-        textShader.use();
-        textShader.loadUniformFloat16("projectionMatrix", matrix);
-
-        basicShader.use();
-        basicShader.loadUniformFloat16("projectionMatrix", matrix);
     }
 
     public void clear() {  // TODO also clear the depth buffer?
@@ -35,13 +30,14 @@ public class Renderer {
 
     public void setViewport(int width, int height) {
         glViewport(0, 0, width, height);
+    }
 
-        Matrix4f matrix = createProjectionMatrix(0, width, 0, height);
-        textShader.use();
-        textShader.loadUniformFloat16("projectionMatrix", matrix);
+    public void begin(OrthographicCamera camera) {
+        viewProjectionMatrix = camera.getViewProjectionMatrix();
+    }
 
-        basicShader.use();
-        basicShader.loadUniformFloat16("projectionMatrix", matrix);
+    public void end() {
+
     }
 
     public void drawText(int x, int y, float size, Text text) {
@@ -49,6 +45,7 @@ public class Renderer {
         textShader.loadUniformInt1("bitmap", 0);
         textShader.loadUniformFloat3("color", text.color);
         textShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(size, size)));
+        textShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
 
         text.textModel.updateData(text.positions, text.textureCoordinates);  // Update the buffer every draw
         text.fontAtlas.bind(0);
@@ -67,9 +64,10 @@ public class Renderer {
         float b = byteToFloat(blue);
         float a = byteToFloat(alpha);
 
+        basicShader.use();
         basicShader.loadUniformFloat4("color", new Vector4f(r, g, b, a));
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(width, height)));
-
+        basicShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
         basicShader.loadUniformInt1("textureSampler", 0);
 
         rendererModels.whiteTexture.bind(0);
@@ -82,8 +80,10 @@ public class Renderer {
         float g = byteToFloat(green);
         float b = byteToFloat(blue);
 
+        basicShader.use();
         basicShader.loadUniformFloat4("color", new Vector4f(r, g, b, 1.0f));
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(1, 1)));
+        basicShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
 
         rendererModels.whiteTexture.bind(0);
         rendererModels.point.bindVAO();
@@ -95,8 +95,10 @@ public class Renderer {
         float g = byteToFloat(green);
         float b = byteToFloat(blue);
 
+        basicShader.use();
         basicShader.loadUniformFloat4("color", new Vector4f(r, g, b, 1.0f));
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(xa, ya), new Vector2f(xb - xa, yb - ya)));
+        basicShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
 
         rendererModels.whiteTexture.bind(0);
         rendererModels.line.bindVAO();
@@ -104,9 +106,10 @@ public class Renderer {
     }
 
     public void drawImage(int x, int y, Texture image) {
+        basicShader.use();
         basicShader.loadUniformInt1("textureSampler", 0);
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(image.getWidth(), image.getHeight())));
-
+        basicShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
         basicShader.loadUniformFloat4("color", new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 
         image.bind(0);
@@ -118,9 +121,10 @@ public class Renderer {
         if (width < 0 || height < 0)
             throw new RuntimeException("Width and height must be greater than 0");
 
+        basicShader.use();
         basicShader.loadUniformInt1("textureSampler", 0);
         basicShader.loadUniformFloat16("transformationMatrix", createTransformationMatrix(new Vector2f(x, y), new Vector2f(width, height)));
-
+        basicShader.loadUniformFloat16("viewProjectionMatrix", viewProjectionMatrix);
         basicShader.loadUniformFloat4("color", new Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
 
         image.bind(0);

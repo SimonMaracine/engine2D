@@ -1,11 +1,14 @@
 package engine2D.core;
 
+import engine2D.core.renderer.OrthographicCamera;
 import engine2D.core.renderer.Renderer;
 import engine2D.events.Event;
 
 public abstract class Layer {
 
     protected final Renderer renderer;
+    protected final OrthographicCamera mainCamera;
+
     private final Application application;
     private final String name;
 
@@ -13,6 +16,7 @@ public abstract class Layer {
         this.name = name;
         this.application = application;
         this.renderer = application.getRenderer();
+        this.mainCamera = application.getMainCamera();
 
         application.getAllLayers().put(name, this);
     }

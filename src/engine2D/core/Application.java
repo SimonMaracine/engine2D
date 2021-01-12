@@ -1,6 +1,7 @@
 package engine2D.core;
 
 import engine2D.core.assetsManager.AssetsManager;
+import engine2D.core.renderer.OrthographicCamera;
 import engine2D.core.renderer.Renderer;
 import engine2D.events.*;
 
@@ -16,9 +17,12 @@ public class Application {
 
     private boolean running = true;
     private final WindowData windowData;
+
     private final ArrayList<Layer> layerStack = new ArrayList<>();
     private final HashMap<String, Layer> allLayers = new HashMap<>();
+
     private final Renderer renderer;
+    private final OrthographicCamera mainCamera;
 
     protected Application(int width, int height, String title) {
         windowData = new WindowData(width, height, title, this::onEvent);
@@ -33,6 +37,7 @@ public class Application {
         } catch (Exception ignored) {}
 
         renderer = new Renderer();
+        mainCamera = new OrthographicCamera(0.0f, width, 0.0f, height);
     }
 
     protected Application(int width, int height, String title, boolean fullscreen, boolean vsync, boolean resizable) {
@@ -48,6 +53,7 @@ public class Application {
         } catch (Exception ignored) {}
 
         renderer = new Renderer();
+        mainCamera = new OrthographicCamera(0.0f, width, 0.0f, height);
     }
 
     void close() {
@@ -56,6 +62,10 @@ public class Application {
 
     Renderer getRenderer() {
         return renderer;
+    }
+
+    OrthographicCamera getMainCamera() {
+        return mainCamera;
     }
 
     HashMap<String, Layer> getAllLayers() {

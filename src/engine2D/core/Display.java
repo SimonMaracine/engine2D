@@ -30,6 +30,9 @@ public class Display {
     }
 
     static void createWindow(int width, int height, String title, boolean fullscreen, boolean vsync, boolean resizable) {
+        if (width <= 0 || height <= 0)
+            throw new RuntimeException("Width and height must be larger than 0");
+
         Display.windowData.width = width;
         Display.windowData.height = height;
         Display.fullscreen = fullscreen;
@@ -70,6 +73,9 @@ public class Display {
     public static void setVSync(int numberOfWaits) {
         if (window == NULL)
             throw new RuntimeException("Window not initilized");
+
+        if (numberOfWaits < 0)
+            throw new RuntimeException("VSync cannot be smaller than 0");
 
         Display.vsync = numberOfWaits > 0;
         glfwSwapInterval(numberOfWaits);

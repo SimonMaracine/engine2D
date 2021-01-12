@@ -16,7 +16,7 @@ public class Main extends Application {
         pushLayer(new ExampleLayer("ExampleLayer", this));
         pushLayer(new CellPopullation("CellPopullation", this));
         pushLayer(new UI("UI", this));
-        Display.setVSync(2);
+        Display.setVSync(1);
     }
 
     public static void main(String[] args) {

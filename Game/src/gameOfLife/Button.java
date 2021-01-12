@@ -1,10 +1,12 @@
 package gameOfLife;
 
+import engine2D.core.renderer.OrthographicCamera;
 import engine2D.core.renderer.Renderer;
 import engine2D.core.renderer.font.FontType;
 import engine2D.core.renderer.font.Text;
 import engine2D.events.*;
 import engine2D.input.Input;
+import org.joml.Vector2i;
 
 interface Command {
     void invoke();
@@ -16,31 +18,34 @@ public class Button {
     int width, height;
     Text text;
     FontType font;
+    OrthographicCamera camera;
     Command command;
 
     boolean canMove = false;
     int xOffsetGrab = 0;
     int yOffsetGrab = 0;
 
-    Button(int x, int y, int width, int height, FontType font, Command command) {
+    Button(int x, int y, int width, int height, FontType font, Command command, OrthographicCamera camera) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.font = font;
         this.command = command;
+        this.camera = camera;
         this.text = font.render("Reset", 128, 0, 128);
     }
 
     void update(float dt) {
-        if (Input.mouseButtonDown(Input.MOUSE_BUTTON_RIGHT)) {
+        if (Input.getMouseButtonDown(Input.MOUSE_BUTTON_RIGHT)) {
             if (canMove) {
-                x = Input.mousePositionX() - xOffsetGrab;
-                y = Input.mousePositionY() - yOffsetGrab;
+                Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+                x = mousePosition.x - xOffsetGrab;
+                y = mousePosition.y - yOffsetGrab;
             }
         }
 
-        if (Input.mouseButtonDown(Input.MOUSE_BUTTON_LEFT)) {
+        if (Input.getMouseButtonDown(Input.MOUSE_BUTTON_LEFT)) {
             if (checkBounds())
                 text = font.render("Reset", 210, 0, 210);
         } else {
@@ -74,8 +79,9 @@ public class Button {
         if (event.button == Input.MOUSE_BUTTON_RIGHT) {
             if (checkBounds()) {
                 canMove = true;
-                xOffsetGrab = Input.mousePositionX() - x;
-                yOffsetGrab = Input.mousePositionY() - y;
+                Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+                xOffsetGrab = mousePosition.x - x;
+                yOffsetGrab = mousePosition.y - y;
             }
             else
                 canMove = false;
@@ -89,8 +95,9 @@ public class Button {
     }
 
     private boolean checkBounds() {
-        int posX = Input.mousePositionX();
-        int posY = Input.mousePositionY();
+        Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+        int posX = mousePosition.x;
+        int posY = mousePosition.y;
 
         if (posX > x && posX < x + width) {
             if (posY > y && posY < y + height) {

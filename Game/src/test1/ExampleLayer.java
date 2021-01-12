@@ -9,6 +9,7 @@ import engine2D.core.renderer.texture.TexParams;
 import engine2D.core.renderer.texture.Texture;
 import engine2D.events.*;
 import engine2D.input.Input;
+import org.joml.Vector3f;
 
 public class ExampleLayer extends Layer {
 
@@ -20,6 +21,10 @@ public class ExampleLayer extends Layer {
     Text sentence2;
     Text smallText;
     Text largeText;
+
+    Vector3f cameraPosition = new Vector3f();
+    Vector3f cameraRotation = new Vector3f();
+    final float cameraSpeed = 250.0f;
 
     public ExampleLayer(String name, Application app) {
         super(name, app);
@@ -52,10 +57,30 @@ public class ExampleLayer extends Layer {
 
     @Override
     protected void update(float dt) {
+        if (Input.getKeyDown(Input.KEY_LEFT))
+            cameraPosition.x -= cameraSpeed * dt;
+        else if (Input.getKeyDown(Input.KEY_RIGHT))
+            cameraPosition.x += cameraSpeed * dt;
+        if (Input.getKeyDown(Input.KEY_UP))
+            cameraPosition.y += cameraSpeed * dt;
+        else if (Input.getKeyDown(Input.KEY_DOWN))
+            cameraPosition.y -= cameraSpeed * dt;
+
+        if (Input.getKeyDown(Input.KEY_X))
+            cameraRotation.x += 45.0f * dt;
+        if (Input.getKeyDown(Input.KEY_Y))
+            cameraRotation.y += 45.0f * dt;
+        if (Input.getKeyDown(Input.KEY_Z))
+            cameraRotation.z += 45.0f * dt;
+
+        mainCamera.setPosition(cameraPosition);
+        mainCamera.setRotation(cameraRotation);
+
+        renderer.begin(mainCamera);
         renderer.drawRect(300, 400, 300, 120, 255, 0, 128, 255);
         renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
 
-        renderer.drawPoint(Input.mousePositionX() + 5, Input.mousePositionY() + 5, 0, 255, 0);
+        renderer.drawPoint(Input.getMousePositionX() + 5, Input.getMousePositionY() + 5, 0, 255, 0);
 
         renderer.drawImage(400, 300, 200, 150, image);
 
@@ -72,6 +97,7 @@ public class ExampleLayer extends Layer {
 
         renderer.drawText(600, 100, 0.4f, smallText);
         renderer.drawText(600, 200, 1.5f, largeText);
+        renderer.end();
 
 //        System.out.println(secondLayer.count);
     }

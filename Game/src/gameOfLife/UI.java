@@ -23,7 +23,7 @@ public class UI extends Layer {
         font = new FontType("res/fonts/arial.fnt", "res/fonts/arial.png");
         resetButton = new Button(10, 10, 120, 40, font, () -> {
             cellPopullation.initCells();
-        });
+        }, mainCamera);
     }
 
     @Override
@@ -34,10 +34,14 @@ public class UI extends Layer {
     @Override
     protected void update(float dt) {
         resetButton.update(dt);
-        resetButton.render(renderer);
 
+        renderer.begin(mainCamera);
+
+        resetButton.render(renderer);
         Text fps = font.render(Integer.toString(Time.getFPS()), 0, 0, 255);
         renderer.drawText(1, Options.HEIGHT - 20, 0.3f, fps);
+
+        renderer.end();
     }
 
     @Override

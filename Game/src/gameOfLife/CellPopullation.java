@@ -4,6 +4,7 @@ import engine2D.core.Application;
 import engine2D.core.Layer;
 import engine2D.events.*;
 import engine2D.input.Input;
+import org.joml.Vector2i;
 
 import java.util.Random;
 
@@ -74,12 +75,16 @@ public class CellPopullation extends Layer {
         // Rendering
 //        renderer.clear();
 
+        renderer.begin(mainCamera);
+
         for (int i = 0; i < NO_CELLS_WIDTH; i++) {
             for (int j = 0; j < NO_CELLS_HEIGHT; j++) {
                 if (cells[i][j])
                     renderer.drawRect(i * CELL_WIDTH, j * CELL_WIDTH, CELL_WIDTH - 1, CELL_WIDTH - 1, 255, 255, 255, 255);
             }
         }
+
+        renderer.end();
     }
 
     @Override
@@ -107,7 +112,8 @@ public class CellPopullation extends Layer {
     private boolean onMouseButtonReleased(MouseButtonReleasedEvent event) {
         if (event.button == Input.MOUSE_BUTTON_LEFT) {
             try {
-                cells[Input.mousePositionX() / CELL_WIDTH][Input.mousePositionY() / CELL_WIDTH] = true;
+                Vector2i mousePosition = Input.getMousePositionMultipliedByView(mainCamera.getViewMatrix());
+                cells[mousePosition.x / CELL_WIDTH][mousePosition.y / CELL_WIDTH] = true;
             } catch (ArrayIndexOutOfBoundsException ignored) {}  // Clicked outside of the original window area
         }
 
