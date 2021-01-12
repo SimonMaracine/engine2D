@@ -76,8 +76,9 @@ public class Application {
         float dt = 0.0f;
 
         while (running) {
-            for (int i = 0; i < layerStack.size(); i++)
+            for (int i = 0; i < layerStack.size(); i++) {
                 layerStack.get(i).update(dt);
+            }
 
             Display.update();
             dt = Time.tick();

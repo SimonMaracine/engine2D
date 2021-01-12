@@ -1,8 +1,10 @@
 package test1;
 
 import engine2D.core.Application;
+import engine2D.core.Display;
 import engine2D.core.Layer;
 import engine2D.core.Time;
+import engine2D.core.renderer.OrthographicCamera;
 import engine2D.core.renderer.font.FontType;
 import engine2D.core.renderer.font.Text;
 import engine2D.core.renderer.texture.TexParams;
@@ -23,8 +25,10 @@ public class ExampleLayer extends Layer {
     Text largeText;
 
     Vector3f cameraPosition = new Vector3f();
-    Vector3f cameraRotation = new Vector3f();
+    float cameraRotation = 0.0f;
     final float cameraSpeed = 250.0f;
+
+    OrthographicCamera camera2 = new OrthographicCamera(0, Display.getWidth(), 0, Display.getHeight());
 
     public ExampleLayer(String name, Application app) {
         super(name, app);
@@ -48,6 +52,7 @@ public class ExampleLayer extends Layer {
     @Override
     protected void attach() {
         System.out.println(Application.ENGINE_VERSION);
+        camera2.setPosition(new Vector3f(100.0f, 0.0f, 0.0f));
     }
 
     @Override
@@ -66,17 +71,15 @@ public class ExampleLayer extends Layer {
         else if (Input.getKeyDown(Input.KEY_DOWN))
             cameraPosition.y -= cameraSpeed * dt;
 
-        if (Input.getKeyDown(Input.KEY_X))
-            cameraRotation.x += 45.0f * dt;
-        if (Input.getKeyDown(Input.KEY_Y))
-            cameraRotation.y += 45.0f * dt;
-        if (Input.getKeyDown(Input.KEY_Z))
-            cameraRotation.z += 45.0f * dt;
+        if (Input.getKeyDown(Input.KEY_A))
+            cameraRotation += 120.0f * dt;
+        if (Input.getKeyDown(Input.KEY_D))
+            cameraRotation -= 120.0f * dt;
 
         mainCamera.setPosition(cameraPosition);
         mainCamera.setRotation(cameraRotation);
 
-        renderer.begin(mainCamera);
+        renderer.begin(getActiveCamera());
         renderer.drawRect(300, 400, 300, 120, 255, 0, 128, 255);
         renderer.drawLine(100, 100, 500, 300, 128, 0, 255);
 
@@ -114,6 +117,12 @@ public class ExampleLayer extends Layer {
         if (!event.repeated)
             if (event.key == Input.KEY_UP)
                 System.out.println("Pressed up key!");
+            else if (event.key == Input.KEY_C) {
+                if (getActiveCamera() == mainCamera)
+                    setActiveCamera(camera2);
+                else
+                    setActiveCamera(mainCamera);
+            }
 
         return true;
     }
@@ -126,14 +135,14 @@ public class ExampleLayer extends Layer {
         else if (event.key == Input.KEY_ESCAPE)
             closeApplication();
 
-        return true;
+        return false;
     }
 
     private boolean onMouseButtonPressed(MouseButtonPressedEvent event) {
         if (event.button == Input.MOUSE_BUTTON_LEFT)
             System.out.println("Left click");
 
-        return true;
+        return false;
     }
 
 }

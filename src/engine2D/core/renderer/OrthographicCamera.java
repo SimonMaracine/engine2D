@@ -10,7 +10,7 @@ public class OrthographicCamera {
     private final Matrix4f viewProjectionMatrix = new Matrix4f();
 
     private Vector3f position = new Vector3f();
-    private Vector3f rotation = new Vector3f();  // In degrees
+    private float rotationZ = 0.0f;  // In degrees
 
     public OrthographicCamera(float left, float right, float bottom, float top) {
         projectionMatrix.ortho2D(left, right, bottom, top);
@@ -20,8 +20,8 @@ public class OrthographicCamera {
         return position;
     }
 
-    public Vector3f getRotation() {
-        return rotation;
+    public float getRotation() {
+        return rotationZ;
     }
 
     public void setPosition(Vector3f position) {
@@ -29,8 +29,8 @@ public class OrthographicCamera {
         recalculateViewMatrix();
     }
 
-    public void setRotation(Vector3f rotation) {
-        this.rotation = rotation;
+    public void setRotation(float rotation) {
+        this.rotationZ = rotation;
         recalculateViewMatrix();
     }
 
@@ -45,9 +45,7 @@ public class OrthographicCamera {
     private void recalculateViewMatrix() {
         Matrix4f mat = new Matrix4f();
         mat.translate(position);
-        mat.rotate((float) Math.toRadians(rotation.x), new Vector3f(1.0f, 0.0f, 0.0f));
-        mat.rotate((float) Math.toRadians(rotation.y), new Vector3f(0.0f, 1.0f, 0.0f));
-        mat.rotate((float) Math.toRadians(rotation.z), new Vector3f(0.0f, 0.0f, 1.0f));
+        mat.rotate((float) Math.toRadians(rotationZ), new Vector3f(0.0f, 0.0f, 1.0f));
 
         mat.invert();  // Have no idea why :P
 

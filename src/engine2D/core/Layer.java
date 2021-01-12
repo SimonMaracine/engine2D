@@ -11,12 +11,14 @@ public abstract class Layer {
 
     private final Application application;
     private final String name;
+    private static OrthographicCamera activeCamera;
 
     protected Layer(String name, Application application) {
         this.name = name;
         this.application = application;
         this.renderer = application.getRenderer();
         this.mainCamera = application.getMainCamera();
+        Layer.activeCamera = mainCamera;  // Active camera is by default the main camera
 
         application.getAllLayers().put(name, this);
     }
@@ -30,8 +32,16 @@ public abstract class Layer {
         return name;
     }
 
+    protected OrthographicCamera getActiveCamera() {
+        return Layer.activeCamera;
+    }
+
     protected void closeApplication() {
         application.close();
+    }
+
+    protected void setActiveCamera(OrthographicCamera camera) {
+        Layer.activeCamera = camera;
     }
 
     @SuppressWarnings("unchecked")

@@ -2,7 +2,6 @@ package engine2D.input;
 
 import engine2D.core.Display;
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
@@ -135,9 +134,9 @@ public class Input {
             KEY_RIGHT_SUPER   = 347,
             KEY_MENU          = 348,
 
-            RELEASE = 0,
-            PRESS = 1,
-            REPEAT = 2,
+//            RELEASE = 0,
+//            PRESS = 1,
+//            REPEAT = 2,
 
             MOUSE_BUTTON_1      = 0,
             MOUSE_BUTTON_2      = 1,
@@ -176,7 +175,7 @@ public class Input {
         return new Vector2i((int) xPos.get(), Display.getHeight() - (int) yPos.get());
     }
 
-    public static Vector2i getMousePositionMultipliedByView(Matrix4f viewMatrix) {
+    public static Vector2i getMousePositionTransformedBy(Matrix4f viewMatrix) {
         DoubleBuffer xPos;
         DoubleBuffer yPos;
 

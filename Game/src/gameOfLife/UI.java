@@ -35,7 +35,7 @@ public class UI extends Layer {
     protected void update(float dt) {
         resetButton.update(dt);
 
-        renderer.begin(mainCamera);
+        renderer.begin(getActiveCamera());
 
         resetButton.render(renderer);
         Text fps = font.render(Integer.toString(Time.getFPS()), 0, 0, 255);

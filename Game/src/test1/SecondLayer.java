@@ -26,7 +26,7 @@ public class SecondLayer extends Layer {
     protected void update(float dt) {
         renderer.clear();  // Only the first layer must clear the screen
 
-        renderer.begin(mainCamera);
+        renderer.begin(getActiveCamera());
         renderer.drawRect(1, 1, 300, 18, 0, 180, 0, 255);
         renderer.end();
 

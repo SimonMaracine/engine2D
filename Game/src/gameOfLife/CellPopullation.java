@@ -72,10 +72,9 @@ public class CellPopullation extends Layer {
 
         cells = generation;
 
-        // Rendering
 //        renderer.clear();
 
-        renderer.begin(mainCamera);
+        renderer.begin(getActiveCamera());
 
         for (int i = 0; i < NO_CELLS_WIDTH; i++) {
             for (int j = 0; j < NO_CELLS_HEIGHT; j++) {
@@ -106,13 +105,13 @@ public class CellPopullation extends Layer {
         if (event.key == Input.KEY_SPACE)
             initCells();
 
-        return true;
+        return false;
     }
 
     private boolean onMouseButtonReleased(MouseButtonReleasedEvent event) {
         if (event.button == Input.MOUSE_BUTTON_LEFT) {
             try {
-                Vector2i mousePosition = Input.getMousePositionMultipliedByView(mainCamera.getViewMatrix());
+                Vector2i mousePosition = Input.getMousePositionTransformedBy(mainCamera.getViewMatrix());
                 cells[mousePosition.x / CELL_WIDTH][mousePosition.y / CELL_WIDTH] = true;
             } catch (ArrayIndexOutOfBoundsException ignored) {}  // Clicked outside of the original window area
         }

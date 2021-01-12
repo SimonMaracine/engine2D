@@ -39,7 +39,7 @@ public class Button {
     void update(float dt) {
         if (Input.getMouseButtonDown(Input.MOUSE_BUTTON_RIGHT)) {
             if (canMove) {
-                Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+                Vector2i mousePosition = Input.getMousePositionTransformedBy(camera.getViewMatrix());
                 x = mousePosition.x - xOffsetGrab;
                 y = mousePosition.y - yOffsetGrab;
             }
@@ -79,7 +79,7 @@ public class Button {
         if (event.button == Input.MOUSE_BUTTON_RIGHT) {
             if (checkBounds()) {
                 canMove = true;
-                Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+                Vector2i mousePosition = Input.getMousePositionTransformedBy(camera.getViewMatrix());
                 xOffsetGrab = mousePosition.x - x;
                 yOffsetGrab = mousePosition.y - y;
             }
@@ -95,7 +95,7 @@ public class Button {
     }
 
     private boolean checkBounds() {
-        Vector2i mousePosition = Input.getMousePositionMultipliedByView(camera.getViewMatrix());
+        Vector2i mousePosition = Input.getMousePositionTransformedBy(camera.getViewMatrix());
         int posX = mousePosition.x;
         int posY = mousePosition.y;
 
