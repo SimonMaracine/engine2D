@@ -72,6 +72,10 @@ public class Application {
         return allLayers;
     }
 
+    WindowData getWindowData() {
+        return windowData;
+    }
+
     protected void run() {
         float dt = 0.0f;
 

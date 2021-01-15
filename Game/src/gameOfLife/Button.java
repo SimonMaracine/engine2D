@@ -1,5 +1,6 @@
 package gameOfLife;
 
+import engine2D.core.CurrentCameraChangedEvent;
 import engine2D.core.renderer.OrthographicCamera;
 import engine2D.core.renderer.Renderer;
 import engine2D.core.renderer.font.FontType;
@@ -62,6 +63,7 @@ public class Button {
         Dispatcher dispatcher = new Dispatcher(event);
         dispatcher.dispatch(EventType.MOUSEBUTTONRELEASED, this::onMouseButtonReleased);
         dispatcher.dispatch(EventType.MOUSEBUTTONPRESSED, this::onMouseButtonPressed);
+        dispatcher.dispatch(EventType.CURRENTCAMERACHANGED, this::onCurrentCameraChanged);
     }
 
     private boolean onMouseButtonReleased(MouseButtonReleasedEvent event) {
@@ -88,6 +90,11 @@ public class Button {
         }
 
         return false;  // return true to consume the event and not print "Left click"
+    }
+
+    private boolean onCurrentCameraChanged(CurrentCameraChangedEvent event) {
+        camera = event.camera;
+        return false;
     }
 
     private void click() {

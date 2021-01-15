@@ -51,8 +51,6 @@ public class Renderer {
         text.fontAtlas.bind(0);
         text.textModel.bindVAO();
         glDrawArrays(GL_TRIANGLES, 0, text.textModel.getVertexCount());
-
-        basicShader.use();  // Use the other shader needed by everyone else
     }
 
     public void drawRect(int x, int y, int width, int height, int red, int green, int blue, int alpha) {

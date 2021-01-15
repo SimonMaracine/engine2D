@@ -26,7 +26,7 @@ public class ExampleLayer extends Layer {
 
     Vector3f cameraPosition = new Vector3f();
     float cameraRotation = 0.0f;
-    final float cameraSpeed = 250.0f;
+    final float cameraSpeed = 300.0f;
 
     OrthographicCamera camera2 = new OrthographicCamera(0, Display.getWidth(), 0, Display.getHeight());
 
@@ -111,6 +111,7 @@ public class ExampleLayer extends Layer {
         dispatcher.dispatch(EventType.KEYRELEASED, this::onKeyReleased);
         dispatcher.dispatch(EventType.KEYPRESSED, this::onKeyPressed);
         dispatcher.dispatch(EventType.MOUSEBUTTONPRESSED, this::onMouseButtonPressed);
+        dispatcher.dispatch(EventType.WINDOWRESIZED, this::onWindowResized);
     }
 
     private boolean onKeyPressed(KeyPressedEvent event) {
@@ -142,6 +143,12 @@ public class ExampleLayer extends Layer {
         if (event.button == Input.MOUSE_BUTTON_LEFT)
             System.out.println("Left click");
 
+        return false;
+    }
+
+    private boolean onWindowResized(WindowResizedEvent event) {
+        mainCamera.setProjectionMatrix(0.0f, event.width, 0.0f, event.height);
+        camera2.setProjectionMatrix(0.0f, event.width, 0.0f, event.height);
         return false;
     }
 

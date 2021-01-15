@@ -23,7 +23,7 @@ public class UI extends Layer {
         font = new FontType("res/fonts/arial.fnt", "res/fonts/arial.png");
         resetButton = new Button(10, 10, 120, 40, font, () -> {
             cellPopullation.initCells();
-        }, mainCamera);
+        }, getActiveCamera());
     }
 
     @Override

@@ -7,7 +7,7 @@ import engine2D.events.Event;
 public abstract class Layer {
 
     protected final Renderer renderer;
-    protected final OrthographicCamera mainCamera;
+    protected final OrthographicCamera mainCamera;  // Just references to the renderer and the main camera
 
     private final Application application;
     private final String name;
@@ -42,6 +42,9 @@ public abstract class Layer {
 
     protected void setActiveCamera(OrthographicCamera camera) {
         Layer.activeCamera = camera;
+
+        CurrentCameraChangedEvent event = new CurrentCameraChangedEvent(camera);
+        application.getWindowData().eventFunction.invoke(event);
     }
 
     @SuppressWarnings("unchecked")
